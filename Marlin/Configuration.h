@@ -300,12 +300,15 @@
 #define PID_FUNCTIONAL_RANGE 10 // If the temperature difference between the target temperature and the actual temperature
 // is more than PID_FUNCTIONAL_RANGE then the PID will be shut off and the heater will be set to min/max.
 #define K1 0.95 //smoothing factor within the PID
+#define  DEFAULT_Kp 30.43
+#define  DEFAULT_Ki 1.86
+#define  DEFAULT_Kd 124.66
 
 // If you are using a pre-configured hotend then you can use one of the value sets by uncommenting it
 // Ultimaker
-#define  DEFAULT_Kp 17.77
-#define  DEFAULT_Ki 0.91
-#define  DEFAULT_Kd 86.61
+//#define  DEFAULT_Kp 17.77
+//#define  DEFAULT_Ki 0.91
+//#define  DEFAULT_Kd 86.61
 
 
 // MakerGear
@@ -332,7 +335,7 @@
 // If your configuration is significantly different than this and you don't understand the issues involved, you probably
 // shouldn't use bed PID until someone else verifies your hardware works.
 // If this is enabled, find your own PID constants below.
-//#define PIDTEMPBED
+#define PIDTEMPBED
 
 //#define BED_LIMIT_SWITCHING
 
@@ -345,12 +348,15 @@
 #if ENABLED(PIDTEMPBED)
 
 //#define PID_BED_DEBUG // Sends debug data to the serial port.
+#define  DEFAULT_bedKp 416.41
+#define  DEFAULT_bedKi 78.20
+#define  DEFAULT_bedKd 554.35
 
 //120V 250W silicone heater into 4mm borosilicate (MendelMax 1.5+)
 //from FOPDT model - kp=.39 Tp=405 Tdead=66, Tc set to 79.2, aggressive factor of .15 (vs .1, 1, 10)
-#define  DEFAULT_bedKp 10.00
-#define  DEFAULT_bedKi .023
-#define  DEFAULT_bedKd 305.4
+//#define  DEFAULT_bedKp 10.00
+//#define  DEFAULT_bedKi .023
+//#define  DEFAULT_bedKd 305.4
 
 //120V 250W silicone heater into 4mm borosilicate (MendelMax 1.5+)
 //from pidautotune
@@ -426,15 +432,15 @@
 //#define USE_ZMAX_PLUG
 
 // coarse Endstop Settings
-#define ENDSTOPPULLUPS // Comment this out (using // at the start of the line) to disable the endstop pullup resistors
+#//define ENDSTOPPULLUPS // Comment this out (using // at the start of the line) to disable the endstop pullup resistors
 
 #if DISABLED(ENDSTOPPULLUPS)
 // fine endstop settings: Individual pullups. will be ignored if ENDSTOPPULLUPS is defined
-//#define ENDSTOPPULLUP_XMAX
-//#define ENDSTOPPULLUP_YMAX
-//#define ENDSTOPPULLUP_ZMAX
-//#define ENDSTOPPULLUP_XMIN
-//#define ENDSTOPPULLUP_YMIN
+#define ENDSTOPPULLUP_XMAX
+#define ENDSTOPPULLUP_YMAX
+#define ENDSTOPPULLUP_ZMAX
+#define ENDSTOPPULLUP_XMIN
+#define ENDSTOPPULLUP_YMIN
 //#define ENDSTOPPULLUP_ZMIN
 //#define ENDSTOPPULLUP_ZMIN_PROBE
 #endif
@@ -477,7 +483,7 @@
 * Override with M92
 *                                      X, Y, Z, E0 [, E1[, E2[, E3[, E4]]]]
 */
-#define DEFAULT_AXIS_STEPS_PER_UNIT   { 80, 80, 400, 94.3 }
+#define DEFAULT_AXIS_STEPS_PER_UNIT   { 80.70, 81.00, 400.50, 105.0 }
 
 /**
 * Default Max Feed Rate (mm/s)
@@ -527,10 +533,10 @@
 * When changing speed and direction, if the difference is less than the
 * value set here, it may happen instantaneously.
 */
-#define DEFAULT_XJERK                 10.0
-#define DEFAULT_YJERK                 10.0
-#define DEFAULT_ZJERK                  0.4
-#define DEFAULT_EJERK                  1.0
+#define DEFAULT_XJERK                 8.0
+#define DEFAULT_YJERK                 8.0
+#define DEFAULT_ZJERK                 0.4
+#define DEFAULT_EJERK                 1.0
 
 
 //===========================================================================
@@ -568,6 +574,8 @@
 * disastrous consequences. Use with caution and do your homework.
 *
 */
+//#define Z_MIN_PROBE_ENDSTOP
+//#define Z_MIN_PROBE_PIN Z_PROBE_PIN
 //#define Z_MIN_PROBE_ENDSTOP
 //#define Z_MIN_PROBE_PIN Z_MAX_PIN
 
@@ -645,9 +653,9 @@
 *      O-- FRONT --+
 *    (0,0)
 */
-#define X_PROBE_OFFSET_FROM_EXTRUDER 40  // X offset: -left  +right  [of the nozzle]
+#define X_PROBE_OFFSET_FROM_EXTRUDER 50  // X offset: -left  +right  [of the nozzle]
 #define Y_PROBE_OFFSET_FROM_EXTRUDER -40  // Y offset: -front +behind [the nozzle]
-#define Z_PROBE_OFFSET_FROM_EXTRUDER -0.7   // Z offset: -below +above  [the nozzle]
+#define Z_PROBE_OFFSET_FROM_EXTRUDER -1.3   // Z offset: -below +above  [the nozzle]
 
 // X and Y axis travel speed (mm/m) between probes
 #define XY_PROBE_SPEED 8000
@@ -656,7 +664,7 @@
 #define Z_PROBE_SPEED_FAST HOMING_FEEDRATE_Z
 
 // Speed for the "accurate" probe of each point
-#define Z_PROBE_SPEED_SLOW (Z_PROBE_SPEED_FAST / 2)
+#define Z_PROBE_SPEED_SLOW (Z_PROBE_SPEED_FAST / 4)
 
 // Use double touch for probing
 //#define PROBE_DOUBLE_TOUCH
@@ -683,7 +691,7 @@
 #define Z_PROBE_OFFSET_RANGE_MAX 20
 
 // Enable the M48 repeatability test to test probe accuracy
-//#define Z_MIN_PROBE_REPEATABILITY_TEST
+#define Z_MIN_PROBE_REPEATABILITY_TEST
 
 // For Inverting Stepper Enable Pins (Active Low) use 0, Non Inverting (Active High) use 1
 // :{ 0:'Low', 1:'High' }
@@ -808,9 +816,9 @@
 *   leveling in steps so you can manually adjust the Z height at each grid-point.
 *   With an LCD controller the process is guided step-by-step.
 */
-#define AUTO_BED_LEVELING_3POINT
+//#define AUTO_BED_LEVELING_3POINT
 //#define AUTO_BED_LEVELING_LINEAR
-//#define AUTO_BED_LEVELING_BILINEAR
+#define AUTO_BED_LEVELING_BILINEAR
 //#define AUTO_BED_LEVELING_UBL
 //#define MESH_BED_LEVELING
 
@@ -831,17 +839,17 @@
 #if ENABLED(AUTO_BED_LEVELING_LINEAR) || ENABLED(AUTO_BED_LEVELING_BILINEAR)
 
 // Set the number of grid points per dimension.
-#define GRID_MAX_POINTS_X 3
+#define GRID_MAX_POINTS_X 6
 #define GRID_MAX_POINTS_Y GRID_MAX_POINTS_X
 
 // Set the boundaries for probing (where the probe can reach).
-#define LEFT_PROBE_BED_POSITION 45
-#define RIGHT_PROBE_BED_POSITION 170
-#define FRONT_PROBE_BED_POSITION 20
-#define BACK_PROBE_BED_POSITION 155
+#define LEFT_PROBE_BED_POSITION 53
+#define RIGHT_PROBE_BED_POSITION 195
+#define FRONT_PROBE_BED_POSITION 30
+#define BACK_PROBE_BED_POSITION 155 
 
 // The Z probe minimum outer margin (to validate G29 parameters).
-#define MIN_PROBE_EDGE 10
+#define MIN_PROBE_EDGE 20
 
 // Probe along the Y axis, advancing X after each column
 //#define PROBE_Y_FIRST
@@ -865,7 +873,7 @@
 #endif
 
 #elif ENABLED(AUTO_BED_LEVELING_3POINT)
-
+m
 // 3 arbitrary points to probe.
 // A simple cross-product is used to estimate the plane of the bed.
 #define ABL_PROBE_PT_1_X 45
